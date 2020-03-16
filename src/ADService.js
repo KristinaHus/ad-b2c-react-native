@@ -156,12 +156,11 @@ class ADService {
       .join('&');
 
   _getStaticURI = (policy, endPoint) => {
-    let uri = `${this.baseUri}/${policy}/oauth2/v2.0/${endPoint}?`;
+   let uri = `${this.baseUri}/oauth2/v2.0/${endPoint}?p=${policy}&`;
     if (endPoint === 'authorize') {
-      uri += `client_id=${this.appId}&response_type=code`;
+      uri += `client_id=${this.appId}&response_type=id_token`;
       uri += `&redirect_uri=${this.redirectURI}`;
-      uri += '&response_mode=query';
-      uri += `&scope=${this.scope}`;
+      uri += '&nonce=defaultNonce'
     }
     return uri;
   };
