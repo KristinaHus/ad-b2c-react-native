@@ -160,6 +160,7 @@ class ADService {
     if (endPoint === 'authorize') {
       uri += `client_id=${this.appId}&response_type=id_token`;
       uri += `&redirect_uri=${this.redirectURI}`;
+      uri += '&scope=openid';
       uri += '&nonce=defaultNonce'
     }
     return uri;
