@@ -44,6 +44,13 @@ export default class LoginView extends PureComponent {
 
   onShouldStartLoadWithRequest(navState) {
     const result = adService.getLoginFlowResult(navState.url);
+    const isHTTPS = navState.url.search('https://') !== -1;
+    if (!isHTTPS) {
+      if (navState.url.startsWith(`${this.props.scheme}://`) || navState.url.startsWith('exp://')) {
+        this.props.onSuccess(navState.url);
+      }
+      return false;
+    }
     if (
       result.requestType === RequestType.Ignore ||
       result.requestType === RequestType.Code ||
