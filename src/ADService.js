@@ -161,7 +161,10 @@ class ADService {
       uri += `client_id=${this.appId}&response_type=id_token`;
       uri += `&redirect_uri=${this.redirectURI}`;
       uri += '&scope=openid';
-      uri += '&nonce=defaultNonce'
+      uri += '&nonce=defaultNonce';
+      if (this.loginHint) {
+        uri +=`&login_hint=${this.loginHint}`;
+      }
     }
     return uri;
   };
