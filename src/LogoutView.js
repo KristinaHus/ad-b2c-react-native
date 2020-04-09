@@ -27,8 +27,12 @@ export default class LogoutView extends React.PureComponent {
   };
 
   async onLoadEnd() {
-    await adService.logoutAsync();
-    this.props.onSuccess();
+    try {
+      await adService.logoutAsync();
+      this.props.onSuccess();
+    } catch (e) {
+      this.props.onFail()
+    }
   }
 
   onError(e) {
