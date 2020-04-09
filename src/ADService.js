@@ -10,7 +10,8 @@ class ADService {
     this.passwordResetPolicy = props.passwordResetPolicy;
     this.profileEditPolicy = props.profileEditPolicy;
     this.redirectURI = encodeURI(props.redirectURI);
-    this.scope = encodeURI(`${this.appId} offline_access`);
+    this.context = props.context;
+    this.scope = encodeURI(props.scope);
     this.response_mode = 'query';
     this.tokenResult = {};
     this.secureStore = props.secureStore;
@@ -160,8 +161,9 @@ class ADService {
     if (endPoint === 'authorize') {
       uri += `client_id=${this.appId}&response_type=id_token`;
       uri += `&redirect_uri=${this.redirectURI}`;
-      uri += '&scope=openid';
+      uri += `&scope=${this.scope}`;
       uri += '&nonce=defaultNonce';
+      uri += `&context=${this.context}`
       if (this.loginHint) {
         uri +=`&login_hint=${this.loginHint}`;
       }
