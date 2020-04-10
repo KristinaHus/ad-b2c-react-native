@@ -13,6 +13,7 @@ export default class LogoutView extends React.PureComponent {
     );
 
     this.webView = null;
+    adService.init(props)
     this.state = { uri: adService.getLogoutURI() };
   }
 
