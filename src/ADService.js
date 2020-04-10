@@ -7,6 +7,7 @@ class ADService {
     this.tenant = props.tenant;
     this.appId = props.appId;
     this.loginPolicy = props.loginPolicy;
+    this.loginHint = props.loginHint;
     this.passwordResetPolicy = props.passwordResetPolicy;
     this.profileEditPolicy = props.profileEditPolicy;
     this.redirectURI = encodeURI(props.redirectURI);
