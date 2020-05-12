@@ -8,6 +8,7 @@ class ADService {
     this.appId = props.appId;
     this.loginPolicy = props.loginPolicy;
     this.loginHint = props.loginHint;
+    this.responseType = props.responseType;
     this.passwordResetPolicy = props.passwordResetPolicy;
     this.profileEditPolicy = props.profileEditPolicy;
     this.redirectURI = encodeURI(props.redirectURI);
@@ -160,7 +161,8 @@ class ADService {
   _getStaticURI = (policy, endPoint) => {
    let uri = `${this.baseUri}/oauth2/v2.0/${endPoint}?p=${policy}&`;
     if (endPoint === 'authorize') {
-      uri += `client_id=${this.appId}&response_type=id_token`;
+      uri += `client_id=${this.appId}`;
+      uri += `&response_type=${this.responseType}`
       uri += `&redirect_uri=${this.redirectURI}`;
       uri += `&scope=${this.scope}`;
       uri += '&nonce=defaultNonce';
