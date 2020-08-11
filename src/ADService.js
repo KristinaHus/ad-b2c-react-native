@@ -18,6 +18,7 @@ class ADService {
     this.tokenResult = {};
     this.secureStore = props.secureStore;
     this.baseUri = `https://${this.tenant}.b2clogin.com/${this.tenant}.onmicrosoft.com`;
+    this.language = props.language
 
     this.TokenTypeKey = 'tokenType';
     this.AccessTokenKey = 'accessToken';
@@ -169,6 +170,9 @@ class ADService {
       uri += `&context=${this.context}`
       if (this.loginHint) {
         uri +=`&login_hint=${this.loginHint}`;
+      }
+      if (this.language) {
+        uri +=`&ui_locale=${this.language}`;
       }
     }
     return uri;
