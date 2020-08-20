@@ -13,7 +13,7 @@ class ADService {
     this.profileEditPolicy = props.profileEditPolicy;
     this.redirectURI = props.redirectURI ? encodeURI(props.redirectURI) : null;
     this.context = props.context;
-    this.scope = encodeURI(props.scope);
+    this.scope = props.scope ? encodeURI(props.scope) : null;
     this.response_mode = 'query';
     this.tokenResult = {};
     this.secureStore = props.secureStore;
