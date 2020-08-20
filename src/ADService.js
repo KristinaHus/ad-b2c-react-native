@@ -11,7 +11,7 @@ class ADService {
     this.responseType = props.responseType;
     this.passwordResetPolicy = props.passwordResetPolicy;
     this.profileEditPolicy = props.profileEditPolicy;
-    this.redirectURI = encodeURI(props.redirectURI);
+    this.redirectURI = props.redirectURI ? encodeURI(props.redirectURI) : null;
     this.context = props.context;
     this.scope = encodeURI(props.scope);
     this.response_mode = 'query';
@@ -96,7 +96,7 @@ class ADService {
     try {
       let params = {
         client_id: this.appId,
-        scope: `${this.appId} offline_access`,        
+        scope: `${this.appId} offline_access`,
         redirect_uri: this.redirectURI,
       };
 
@@ -130,6 +130,24 @@ class ADService {
     }
   };
 
+  getRefreshToken = async (code, grantType, baseUrl, appId, scope, redirectURI) => {
+    const url = this._getStaticURI(this.loginPolicy, 'token', code, grantType, baseUrl, appId, scope, redirectURI);
+    console.log('URL URL', url)
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+      const res = await response.json();
+      return res
+    } catch (e) {
+      console.log('error getRefreshToken', e)
+    }
+
+  }
+
   _setTokenDataAsync = async response => {
     const res = await response.json();
     this.tokenResult = {
@@ -159,8 +177,8 @@ class ADService {
       )
       .join('&');
 
-  _getStaticURI = (policy, endPoint) => {
-   let uri = `${this.baseUri}/oauth2/v2.0/${endPoint}?p=${policy}&`;
+  _getStaticURI = (policy, endPoint, code, grantType, baseUrl, appId, scope, redirectURI) => {
+    let uri = baseUrl ? baseUrl : `${this.baseUri}/oauth2/v2.0/${endPoint}?p=${policy}&`;
     if (endPoint === 'authorize') {
       uri += `client_id=${this.appId}`;
       uri += `&response_type=${this.responseType}`
@@ -173,6 +191,16 @@ class ADService {
       }
       if (this.language) {
         uri +=`&ui_locale=${this.language}`;
+      }
+    } else if (endPoint === 'token') {
+      uri += `grant_type=${grantType}`;
+      uri += `&client_id=${this.appId || appId}`;
+      uri += `&scope=${this.scope || scope}`;
+      uri += `&redirect_uri=${this.redirectURI || redirectURI}`;
+      if (grantType === 'refresh_token') {
+        uri += `&refresh_token=${code}`
+      } else {
+        uri += `&code=${code}`;
       }
     }
     return uri;
@@ -236,7 +264,7 @@ class ADService {
   };
 
   _getQueryParams = url => {
-    const regex = /[?&]([^=#]+)=([^&#]*)/g;
+    const regex = /[?(&|#)]([^=#]+)=([^&#]*)/g;
     const params = {};
     let match;
     while ((match = regex.exec(url))) {
