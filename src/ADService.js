@@ -192,14 +192,14 @@ class ADService {
       if (this.language) {
         uri +=`&ui_locale=${this.language}`;
       }
-    } else if (endPoint === 'token') {
+    } else if (endPoint === 'token' && grantType) {
       uri += `grant_type=${grantType}`;
       uri += `&client_id=${this.appId || appId}`;
       uri += `&scope=${this.scope || scope}`;
       uri += `&redirect_uri=${this.redirectURI || redirectURI}`;
       if (grantType === 'refresh_token') {
         uri += `&refresh_token=${code}`
-      } else {
+      } else if (grantType === 'authorization_code') {
         uri += `&code=${code}`;
       }
     }
