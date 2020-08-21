@@ -165,7 +165,7 @@ class ADService {
       this.secureStore.setItemAsync(this.IdTokenKey, res.id_token),
       this.secureStore.setItemAsync(
         this.ExpiresOnKey,
-        res.expires_on.toString(),
+        res.expires_on ? res.expires_on.toString() : '',
       ),
     );
   };
