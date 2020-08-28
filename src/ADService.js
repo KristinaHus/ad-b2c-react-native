@@ -104,7 +104,7 @@ class ADService {
         params.grant_type = 'refresh_token';
         params.refresh_token = authCode;
       }else{
-        params.grant_type = 'authorization_code';
+        // params.grant_type = 'authorization_code';
         params.code= authCode;
       }
 
@@ -122,7 +122,6 @@ class ADService {
         const data = await response.json();
         throw new Error(data.error_description);
       }
-
       await this._setTokenDataAsync(response);
       return Result(true);
     } catch (error) {
@@ -132,7 +131,6 @@ class ADService {
 
   getRefreshToken = async (code, grantType, baseUrl, appId, scope, redirectURI) => {
     const url = this._getStaticURI(this.loginPolicy, 'token', code, grantType, baseUrl, appId, scope, redirectURI);
-    console.log('URL URL', url)
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -145,7 +143,6 @@ class ADService {
     } catch (e) {
       console.log('error getRefreshToken', e)
     }
-
   }
 
   _setTokenDataAsync = async response => {
@@ -192,7 +189,7 @@ class ADService {
       if (this.language) {
         uri +=`&ui_locale=${this.language}`;
       }
-    } else if (endPoint === 'token' && grantType) {
+    } else if (endPoint === 'token' && grantType && code) {
       uri += `grant_type=${grantType}`;
       uri += `&client_id=${this.appId || appId}`;
       uri += `&scope=${this.scope || scope}`;
