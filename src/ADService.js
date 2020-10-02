@@ -187,7 +187,7 @@ class ADService {
         uri +=`&login_hint=${this.loginHint}`;
       }
       if (this.language) {
-        uri +=`&ui_locale=${this.language}`;
+        uri +=`&ui_locales=${this.language}`;
       }
     } else if (endPoint === 'token' && grantType && code) {
       uri += `grant_type=${grantType}`;
