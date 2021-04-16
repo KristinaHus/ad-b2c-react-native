@@ -113,7 +113,7 @@ export default class LoginView extends PureComponent {
         {...rest}
         originWhitelist={['*']} // refer: https://github.com/facebook/react-native/issues/20917
         source={{ uri }}
-        onNavigationStateChange={this.onNavigationStateChangeAsync}
+        // onNavigationStateChange={this.onNavigationStateChangeAsync}
         onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest}
         renderLoading={renderLoading}
         startInLoadingState
